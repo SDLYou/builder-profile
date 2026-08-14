@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Builder Profile</title>
+  <meta name="description" content="个人 Builder Profile 主页" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #141414;
+      --bg-card-hover: #1a1a1a;
+      --border: #242424;
+      --border-hover: #333;
+      --text-primary: #f0f0f0;
+      --text-secondary: #888;
+      --text-muted: #555;
+      --accent: #ff2d55;
+      --accent-glow: rgba(255, 45, 85, 0.15);
+      --accent-2: #ff6b35;
+      --gradient: linear-gradient(135deg, #ff2d55, #ff6b35);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ===== Noise Texture Overlay ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ===== Layout Container ===== */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== Navigation ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(10, 10, 10, 0.8);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .nav-logo span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* ===== Hero Section ===== */
+    #hero {
+      padding: 80px 0 60px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid rgba(255, 45, 85, 0.3);
+      border-radius: 100px;
+      padding: 4px 12px;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .avatar-wrapper {
+      flex-shrink: 0;
+      position: relative;
+    }
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      /* 如果使用图片，将 font-size 行删除，取消下面 src 的注释 */
+    }
+    .avatar-placeholder {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      flex-shrink: 0;
+    }
+    .status-dot {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 2px solid var(--bg);
+    }
+    .hero-info { flex: 1; }
+    .hero-name {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .hero-title {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+    .hero-title strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .hero-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .hero-bio {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+    .hero-bio strong { color: var(--text-primary); font-weight: 500; }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(255, 45, 85, 0.3);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+    }
+
+    /* ===== Section Common ===== */
+    .section { padding: 48px 0; border-top: 1px solid var(--border); }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: all 0.2s;
+    }
+    .skill-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+    .skill-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 100px;
+    }
+    .skill-level {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ===== Projects ===== */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .project-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateX(4px);
+    }
+    .project-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .project-body { flex: 1; }
+    .project-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .project-tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 100px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid rgba(255, 45, 85, 0.25);
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .project-tech {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .tech-chip {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 100px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .project-arrow {
+      color: var(--text-muted);
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .project-card:hover .project-arrow { transform: translateX(4px); }
+
+    /* ===== Experience / Timeline ===== */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 40px;
+      flex-shrink: 0;
+    }
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .timeline-line {
+      flex: 1;
+      width: 1px;
+      background: var(--border);
+      margin-top: 6px;
+    }
+    .timeline-item:last-child .timeline-line { display: none; }
+    .timeline-content { flex: 1; }
+    .timeline-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .timeline-period {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .timeline-company {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ===== Links / Contact ===== */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+    }
+    .link-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .link-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+    .link-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .link-info {}
+    .link-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .link-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+      text-align: center;
+    }
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-text a {
+      color: var(--accent);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .hero-main { flex-direction: column; gap: 20px; }
+      .hero-name { font-size: 28px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .links-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <!-- 修改为你的名字首字母或 logo -->
+          <span>YN</span>.dev
+        </div>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <section id="hero">
+    <div class="container">
+
+      <!-- 顶部 tag，改为你参加的活动 -->
+      <div class="hero-tag">
+        Delta Builder · 2026
+      </div>
+
+      <div class="hero-main">
+        <!-- 头像：使用 emoji 占位，可替换为 <img> 标签 -->
+        <div class="avatar-wrapper">
+          <div class="avatar-placeholder">👨‍💻</div>
+          <!-- 如果有头像图片，替换为：
+          <img class="avatar" src="your-avatar.jpg" alt="Avatar" />
+          -->
+          <div class="status-dot" title="Open to collaborate"></div>
+        </div>
+
+        <div class="hero-info">
+          <!-- ✏️ 修改你的名字 -->
+          <h1 class="hero-name">Your Name</h1>
+          <!-- ✏️ 修改你的职位和公司 -->
+          <p class="hero-title"><strong>Software Engineer</strong> @ Company · City</p>
+          <p class="hero-location">📍 Location, China</p>
+        </div>
+      </div>
+
+      <!-- ✏️ 修改你的个人简介 -->
+      <p class="hero-bio" id="about">
+        Hi, I'm <strong>Your Name</strong>. 在这里写一段关于你自己的介绍，
+        比如你的专长、热情所在、正在做的事情，以及你希望与什么样的人连接。
+        可以<strong>加粗关键词</strong>让读者快速了解你。
+      </p>
+
+      <div class="hero-actions">
+        <!-- ✏️ 修改链接地址 -->
+        <a href="mailto:your@email.com" class="btn btn-primary">
+          ✉️ 联系我
+        </a>
+        <a href="https://github.com/yourhandle" class="btn btn-secondary" target="_blank">
+          🐙 GitHub
+        </a>
+        <a href="https://your-resume-link.com" class="btn btn-secondary" target="_blank">
+          📄 简历
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">⚡</div>
+        <div>
+          <div class="section-title">Skills</div>
+          <div class="section-subtitle">技术栈 & 能力</div>
+        </div>
+      </div>
+
+      <!-- ✏️ 修改技能列表，width 表示熟练度百分比 -->
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-name">🌐 Skill One</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 90%"></div></div>
+          <div class="skill-level">Expert</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">⚛️ Skill Two</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 85%"></div></div>
+          <div class="skill-level">Advanced</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🐍 Skill Three</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%"></div></div>
+          <div class="skill-level">Proficient</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🤖 Skill Four</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 70%"></div></div>
+          <div class="skill-level">Proficient</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">☁️ Skill Five</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%"></div></div>
+          <div class="skill-level">Familiar</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🛠️ Skill Six</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%"></div></div>
+          <div class="skill-level">Advanced</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== Projects ===== -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div>
+          <div class="section-title">Projects</div>
+          <div class="section-subtitle">代表性作品 & 项目</div>
+        </div>
+      </div>
+
+      <div class="projects-list">
+
+        <!-- ✏️ 修改每个项目的信息 -->
+        <a href="https://your-project-link.com" target="_blank" class="project-card">
+          <div class="project-icon">🎯</div>
+          <div class="project-body">
+            <div class="project-name">
+              Project Name One
+              <span class="project-tag">主项目</span>
+            </div>
+            <div class="project-desc">
+              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">React</span>
+              <span class="tech-chip">TypeScript</span>
+              <span class="tech-chip">Node.js</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a href="https://your-project-link.com" target="_blank" class="project-card">
+          <div class="project-icon">💡</div>
+          <div class="project-body">
+            <div class="project-name">
+              Project Name Two
+              <span class="project-tag">Side Project</span>
+            </div>
+            <div class="project-desc">
+              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">AI/ML</span>
+              <span class="tech-chip">FastAPI</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a href="https://your-project-link.com" target="_blank" class="project-card">
+          <div class="project-icon">🔧</div>
+          <div class="project-body">
+            <div class="project-name">
+              Project Name Three
+            </div>
+            <div class="project-desc">
+              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Go</span>
+              <span class="tech-chip">Docker</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Experience ===== -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">💼</div>
+        <div>
+          <div class="section-title">Experience</div>
+          <div class="section-subtitle">工作经历</div>
+        </div>
+      </div>
+
+      <!-- ✏️ 修改工作经历 -->
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-title">Job Title One</div>
+              <div class="timeline-period">2024 — Present</div>
+            </div>
+            <div class="timeline-company">Company Name · Full-time</div>
+            <div class="timeline-desc">
+              描述你在这个职位的主要职责和成就。可以用数字量化成果，比如"提升页面性能 40%"、"负责 X 个核心模块"等。
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-title">Job Title Two</div>
+              <div class="timeline-period">2022 — 2024</div>
+            </div>
+            <div class="timeline-company">Company Name · Full-time</div>
+            <div class="timeline-desc">
+              描述你在这个职位的主要职责和成就。
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-title">Job Title Three</div>
+              <div class="timeline-period">2020 — 2022</div>
+            </div>
+            <div class="timeline-company">Company Name · Internship</div>
+            <div class="timeline-desc">
+              描述你在这个职位的主要职责和成就。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact / Links ===== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div>
+          <div class="section-title">Connect</div>
+          <div class="section-subtitle">找到我 & 联系方式</div>
+        </div>
+      </div>
+
+      <!-- ✏️ 修改联系方式和链接 -->
+      <div class="links-grid">
+        <a href="mailto:your@email.com" class="link-card">
+          <span class="link-icon">✉️</span>
+          <div class="link-info">
+            <div class="link-label">Email</div>
+            <div class="link-value">your@email.com</div>
+          </div>
+        </a>
+        <a href="https://github.com/yourhandle" target="_blank" class="link-card">
+          <span class="link-icon">🐙</span>
+          <div class="link-info">
+            <div class="link-label">GitHub</div>
+            <div class="link-value">@yourhandle</div>
+          </div>
+        </a>
+        <a href="https://twitter.com/yourhandle" target="_blank" class="link-card">
+          <span class="link-icon">𝕏</span>
+          <div class="link-info">
+            <div class="link-label">X / Twitter</div>
+            <div class="link-value">@yourhandle</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/yourhandle" target="_blank" class="link-card">
+          <span class="link-icon">💼</span>
+          <div class="link-info">
+            <div class="link-label">LinkedIn</div>
+            <div class="link-value">yourhandle</div>
+          </div>
+        </a>
+        <a href="https://your-blog.com" target="_blank" class="link-card">
+          <span class="link-icon">📝</span>
+          <div class="link-info">
+            <div class="link-label">Blog</div>
+            <div class="link-value">your-blog.com</div>
+          </div>
+        </a>
+        <a href="https://your-portfolio.com" target="_blank" class="link-card">
+          <span class="link-icon">🌐</span>
+          <div class="link-info">
+            <div class="link-label">Portfolio</div>
+            <div class="link-value">your-site.com</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="container">
+      <p class="footer-text">
+        Built with ❤️ for <a href="https://cowork.xiaohongshu.com/s/delta-invite-v2/" target="_blank">Delta Builder</a> · 2026
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
