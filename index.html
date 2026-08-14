@@ -3,853 +3,659 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Builder Profile</title>
-  <meta name="description" content="个人 Builder Profile 主页" />
+  <title>洛璃 · 个人主页</title>
+  <meta name="description" content="洛璃的个人 Builder Profile — 热爱生活，天秤座 ESFJ" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ===== CSS Variables ===== */
+    /* ===== Variables ===== */
     :root {
-      --bg: #0a0a0a;
-      --bg-card: #141414;
-      --bg-card-hover: #1a1a1a;
-      --border: #242424;
-      --border-hover: #333;
-      --text-primary: #f0f0f0;
-      --text-secondary: #888;
-      --text-muted: #555;
-      --accent: #ff2d55;
-      --accent-glow: rgba(255, 45, 85, 0.15);
-      --accent-2: #ff6b35;
-      --gradient: linear-gradient(135deg, #ff2d55, #ff6b35);
-      --radius: 16px;
-      --radius-sm: 10px;
+      --bg: #0c0c10;
+      --bg2: #13131a;
+      --bg3: #1a1a24;
+      --border: #2a2a38;
+      --border2: #363650;
+      --text: #eeeef5;
+      --text2: #9898b8;
+      --text3: #55556a;
+      --accent: #a78bfa;       /* 紫 */
+      --accent2: #f472b6;      /* 粉 */
+      --accent3: #34d399;      /* 绿 */
+      --glow: rgba(167,139,250,0.15);
+      --gradient: linear-gradient(135deg, #a78bfa, #f472b6);
+      --radius: 18px;
+      --radius-sm: 12px;
     }
 
-    /* ===== Reset & Base ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
+      color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
     }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    ul { list-style: none; }
 
-    /* ===== Noise Texture Overlay ===== */
-    body::before {
-      content: '';
+    /* ===== 星空背景 ===== */
+    .stars {
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
       z-index: 0;
-      opacity: 0.4;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min-op, 0.1); transform: scale(1); }
+      50% { opacity: var(--max-op, 0.7); transform: scale(1.3); }
     }
 
-    /* ===== Layout Container ===== */
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 24px;
+    /* ===== Layout ===== */
+    .page {
       position: relative;
       z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
     }
 
-    /* ===== Navigation ===== */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(10, 10, 10, 0.8);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
+    /* ===== Header ===== */
+    .site-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      padding: 24px 0;
     }
-    .nav-logo {
+    .site-logo {
+      font-family: 'Noto Serif SC', serif;
       font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .nav-logo span {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      font-weight: 700;
     }
-    .nav-links {
-      display: flex;
-      gap: 24px;
-    }
-    .nav-links a {
-      font-size: 14px;
-      color: var(--text-secondary);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text-primary); }
-
-    /* ===== Hero Section ===== */
-    #hero {
-      padding: 80px 0 60px;
-    }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .header-tag {
       font-size: 12px;
-      font-weight: 500;
-      color: var(--accent);
-      background: var(--accent-glow);
-      border: 1px solid rgba(255, 45, 85, 0.3);
+      color: var(--text3);
+      border: 1px solid var(--border);
       border-radius: 100px;
       padding: 4px 12px;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
     }
-    .hero-tag::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s infinite;
+
+    /* ===== Hero ===== */
+    .hero {
+      text-align: center;
+      padding: 56px 0 40px;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-    .hero-main {
-      display: flex;
-      align-items: flex-start;
-      gap: 32px;
-      margin-bottom: 32px;
-    }
-    .avatar-wrapper {
-      flex-shrink: 0;
+    .avatar-ring {
       position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
     }
-    .avatar {
-      width: 96px;
-      height: 96px;
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
       border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border);
-      background: var(--bg-card);
+      background: var(--gradient);
+      z-index: -1;
+      filter: blur(8px);
+      opacity: 0.6;
+    }
+    .avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e1e30, #2a2a40);
+      border: 2px solid var(--border2);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
-      /* 如果使用图片，将 font-size 行删除，取消下面 src 的注释 */
+      font-size: 44px;
     }
-    .avatar-placeholder {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      flex-shrink: 0;
-    }
-    .status-dot {
+    .online-dot {
       position: absolute;
       bottom: 4px;
       right: 4px;
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: #22c55e;
+      background: var(--accent3);
       border: 2px solid var(--bg);
     }
-    .hero-info { flex: 1; }
+
     .hero-name {
-      font-size: 36px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 6px;
-      letter-spacing: -0.02em;
-    }
-    .hero-title {
-      font-size: 16px;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-      font-weight: 400;
-    }
-    .hero-title strong {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-    .hero-location {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .hero-bio {
-      font-size: 16px;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      max-width: 600px;
-      margin-bottom: 32px;
-    }
-    .hero-bio strong { color: var(--text-primary); font-weight: 500; }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-    }
-    .btn-primary {
-      background: var(--gradient);
-      color: #fff;
-    }
-    .btn-primary:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(255, 45, 85, 0.3);
-    }
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-    }
-
-    /* ===== Section Common ===== */
-    .section { padding: 48px 0; border-top: 1px solid var(--border); }
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-    .section-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-    }
-    .section-title {
-      font-size: 18px;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 42px;
       font-weight: 700;
-      color: var(--text-primary);
+      letter-spacing: 0.1em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
     }
-    .section-subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 2px;
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text2);
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+    .hero-slogan {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--text2);
+      line-height: 1.9;
+      max-width: 420px;
+      margin: 0 auto 32px;
+    }
+    .hero-slogan em {
+      font-style: normal;
+      color: var(--accent);
     }
 
-    /* ===== Skills ===== */
-    .skills-grid {
+    /* ===== Info Cards Grid ===== */
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
     }
-    .skill-card {
-      background: var(--bg-card);
+    .info-grid.two-col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .info-card {
+      background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 16px;
-      transition: all 0.2s;
+      text-align: center;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
     }
-    .skill-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
+    .info-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.25s;
     }
-    .skill-name {
-      font-size: 14px;
-      font-weight: 500;
+    .info-card:hover::after { opacity: 0.04; }
+    .info-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+    .info-emoji {
+      font-size: 22px;
       margin-bottom: 8px;
+      display: block;
+    }
+    .info-label {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ===== About Section ===== */
+    .section {
+      margin-top: 40px;
+    }
+    .section-label {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-    .skill-bar {
-      height: 3px;
-      background: var(--border);
-      border-radius: 100px;
-      overflow: hidden;
-    }
-    .skill-bar-fill {
-      height: 100%;
-      background: var(--gradient);
-      border-radius: 100px;
-    }
-    .skill-level {
       font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
+      color: var(--text3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--border2);
     }
 
-    /* ===== Projects ===== */
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .project-card {
-      background: var(--bg-card);
+    .about-card {
+      background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px 24px;
+      padding: 24px 28px;
+    }
+    .about-text {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.9;
+    }
+    .about-text strong { color: var(--text); font-weight: 500; }
+    .about-text .highlight {
+      background: var(--glow);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+
+    /* ===== Tags / Vibe ===== */
+    .vibe-list {
       display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      transition: all 0.25s;
-      cursor: pointer;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .project-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      transform: translateX(4px);
+    .vibe-tag {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text2);
+      transition: all 0.2s;
+      cursor: default;
     }
-    .project-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+    .vibe-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--glow);
+    }
+
+    /* ===== GAME: 今日人生签 ===== */
+    .game-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .game-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
       background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .game-desc {
+      font-size: 12px;
+      color: var(--text3);
+      margin-bottom: 28px;
+    }
+    .gashapon {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .gashapon-body {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2a2a40, #3a2a50);
+      border: 3px solid var(--border2);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    .project-body { flex: 1; }
-    .project-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .project-tag {
-      font-size: 10px;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 100px;
-      background: var(--accent-glow);
-      color: var(--accent);
-      border: 1px solid rgba(255, 45, 85, 0.25);
-    }
-    .project-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .project-tech {
-      display: flex;
-      gap: 6px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-    .tech-chip {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 100px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-    .project-arrow {
-      color: var(--text-muted);
-      margin-top: 2px;
-      flex-shrink: 0;
-      transition: transform 0.2s;
-    }
-    .project-card:hover .project-arrow { transform: translateX(4px); }
-
-    /* ===== Experience / Timeline ===== */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .timeline-item {
-      display: flex;
-      gap: 16px;
-      padding-bottom: 28px;
+      font-size: 36px;
+      box-shadow: 0 0 30px rgba(167,139,250,0.15), inset 0 2px 4px rgba(255,255,255,0.05);
+      transition: transform 0.1s;
       position: relative;
     }
-    .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 40px;
-      flex-shrink: 0;
+    .gashapon-body.spinning {
+      animation: gashapon-spin 0.5s ease-in-out;
     }
-    .timeline-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--accent);
-      margin-top: 5px;
-      flex-shrink: 0;
+    @keyframes gashapon-spin {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-15deg) scale(0.95); }
+      50% { transform: rotate(20deg) scale(1.05); }
+      75% { transform: rotate(-10deg) scale(0.97); }
+      100% { transform: rotate(0deg) scale(1); }
     }
-    .timeline-line {
-      flex: 1;
-      width: 1px;
-      background: var(--border);
-      margin-top: 6px;
+    .gashapon-neck {
+      width: 20px;
+      height: 8px;
+      background: var(--border2);
+      border-radius: 0 0 4px 4px;
     }
-    .timeline-item:last-child .timeline-line { display: none; }
-    .timeline-content { flex: 1; }
-    .timeline-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 4px;
-    }
-    .timeline-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .timeline-period {
-      font-size: 12px;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-    .timeline-company {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-    .timeline-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.65;
+    .gashapon-base {
+      width: 50px;
+      height: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 0 0 6px 6px;
     }
 
-    /* ===== Links / Contact ===== */
-    .links-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 10px;
+    .btn-pull {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 28px;
+      border-radius: 100px;
+      background: var(--gradient);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(167,139,250,0.3);
+      margin-bottom: 20px;
     }
-    .link-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
+    .btn-pull:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(167,139,250,0.4);
+    }
+    .btn-pull:active { transform: scale(0.97); }
+
+    .fortune-display {
+      min-height: 64px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
+      justify-content: center;
     }
-    .link-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
+    .fortune-box {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.4s ease;
     }
-    .link-icon {
-      font-size: 18px;
-      flex-shrink: 0;
+    .fortune-box.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .link-info {}
-    .link-label {
-      font-size: 12px;
-      color: var(--text-muted);
+    .fortune-grade {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
     }
-    .link-value {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-primary);
+    .fortune-grade.SSR { color: #fbbf24; }
+    .fortune-grade.SR  { color: var(--accent); }
+    .fortune-grade.R   { color: var(--accent3); }
+    .fortune-grade.N   { color: var(--text3); }
+    .fortune-text {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .fortune-count {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 8px;
     }
 
     /* ===== Footer ===== */
-    footer {
+    .site-footer {
       border-top: 1px solid var(--border);
-      padding: 32px 0 48px;
+      padding: 32px 0 0;
       text-align: center;
+      margin-top: 60px;
     }
     .footer-text {
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--text3);
     }
-    .footer-text a {
-      color: var(--accent);
+    .footer-text a { color: var(--accent); }
+
+    /* ===== Divider ===== */
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
     }
 
     /* ===== Responsive ===== */
-    @media (max-width: 600px) {
-      .hero-main { flex-direction: column; gap: 20px; }
-      .hero-name { font-size: 28px; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .links-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links { gap: 16px; }
+    @media (max-width: 520px) {
+      .info-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-name { font-size: 32px; }
+    }
+    @media (max-width: 360px) {
+      .info-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== Navigation ===== -->
-  <nav>
-    <div class="container">
-      <div class="nav-inner">
-        <div class="nav-logo">
-          <!-- 修改为你的名字首字母或 logo -->
-          <span>YN</span>.dev
-        </div>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#experience">Experience</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </div>
+<!-- 星空 -->
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo">洛璃</div>
+    <div class="header-tag">Delta Builder · 2026</div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="avatar-ring">
+      <div class="avatar-circle">🌙</div>
+      <div class="online-dot"></div>
     </div>
-  </nav>
-
-  <!-- ===== Hero ===== -->
-  <section id="hero">
-    <div class="container">
-
-      <!-- 顶部 tag，改为你参加的活动 -->
-      <div class="hero-tag">
-        Delta Builder · 2026
-      </div>
-
-      <div class="hero-main">
-        <!-- 头像：使用 emoji 占位，可替换为 <img> 标签 -->
-        <div class="avatar-wrapper">
-          <div class="avatar-placeholder">👨‍💻</div>
-          <!-- 如果有头像图片，替换为：
-          <img class="avatar" src="your-avatar.jpg" alt="Avatar" />
-          -->
-          <div class="status-dot" title="Open to collaborate"></div>
-        </div>
-
-        <div class="hero-info">
-          <!-- ✏️ 修改你的名字 -->
-          <h1 class="hero-name">Your Name</h1>
-          <!-- ✏️ 修改你的职位和公司 -->
-          <p class="hero-title"><strong>Software Engineer</strong> @ Company · City</p>
-          <p class="hero-location">📍 Location, China</p>
-        </div>
-      </div>
-
-      <!-- ✏️ 修改你的个人简介 -->
-      <p class="hero-bio" id="about">
-        Hi, I'm <strong>Your Name</strong>. 在这里写一段关于你自己的介绍，
-        比如你的专长、热情所在、正在做的事情，以及你希望与什么样的人连接。
-        可以<strong>加粗关键词</strong>让读者快速了解你。
-      </p>
-
-      <div class="hero-actions">
-        <!-- ✏️ 修改链接地址 -->
-        <a href="mailto:your@email.com" class="btn btn-primary">
-          ✉️ 联系我
-        </a>
-        <a href="https://github.com/yourhandle" class="btn btn-secondary" target="_blank">
-          🐙 GitHub
-        </a>
-        <a href="https://your-resume-link.com" class="btn btn-secondary" target="_blank">
-          📄 简历
-        </a>
-      </div>
-
-    </div>
+    <h1 class="hero-name">洛璃</h1>
+    <p class="hero-subtitle">浙江宁波 · 天秤座 ♎ · ESFJ</p>
+    <p class="hero-slogan">
+      生活是一场长途旅行，<br/>
+      我喜欢在<em>每一处细小的美好</em>里慢下来——<br/>
+      阳光、微风、一碗热汤，<br/>
+      都足以让这天值得。
+    </p>
   </section>
 
-  <!-- ===== Skills ===== -->
-  <section class="section" id="skills">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-icon">⚡</div>
-        <div>
-          <div class="section-title">Skills</div>
-          <div class="section-subtitle">技术栈 & 能力</div>
-        </div>
-      </div>
-
-      <!-- ✏️ 修改技能列表，width 表示熟练度百分比 -->
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-name">🌐 Skill One</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 90%"></div></div>
-          <div class="skill-level">Expert</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">⚛️ Skill Two</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 85%"></div></div>
-          <div class="skill-level">Advanced</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">🐍 Skill Three</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%"></div></div>
-          <div class="skill-level">Proficient</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">🤖 Skill Four</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 70%"></div></div>
-          <div class="skill-level">Proficient</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">☁️ Skill Five</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%"></div></div>
-          <div class="skill-level">Familiar</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">🛠️ Skill Six</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%"></div></div>
-          <div class="skill-level">Advanced</div>
-        </div>
-      </div>
-
+  <!-- Info Cards -->
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-emoji">👦</span>
+      <div class="info-label">性别</div>
+      <div class="info-value">男</div>
     </div>
-  </section>
-
-  <!-- ===== Projects ===== -->
-  <section class="section" id="projects">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-icon">🚀</div>
-        <div>
-          <div class="section-title">Projects</div>
-          <div class="section-subtitle">代表性作品 & 项目</div>
-        </div>
-      </div>
-
-      <div class="projects-list">
-
-        <!-- ✏️ 修改每个项目的信息 -->
-        <a href="https://your-project-link.com" target="_blank" class="project-card">
-          <div class="project-icon">🎯</div>
-          <div class="project-body">
-            <div class="project-name">
-              Project Name One
-              <span class="project-tag">主项目</span>
-            </div>
-            <div class="project-desc">
-              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
-            </div>
-            <div class="project-tech">
-              <span class="tech-chip">React</span>
-              <span class="tech-chip">TypeScript</span>
-              <span class="tech-chip">Node.js</span>
-            </div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-
-        <a href="https://your-project-link.com" target="_blank" class="project-card">
-          <div class="project-icon">💡</div>
-          <div class="project-body">
-            <div class="project-name">
-              Project Name Two
-              <span class="project-tag">Side Project</span>
-            </div>
-            <div class="project-desc">
-              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
-            </div>
-            <div class="project-tech">
-              <span class="tech-chip">Python</span>
-              <span class="tech-chip">AI/ML</span>
-              <span class="tech-chip">FastAPI</span>
-            </div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-
-        <a href="https://your-project-link.com" target="_blank" class="project-card">
-          <div class="project-icon">🔧</div>
-          <div class="project-body">
-            <div class="project-name">
-              Project Name Three
-            </div>
-            <div class="project-desc">
-              描述你的项目是什么，解决了什么问题，有哪些亮点。一两句话即可，简洁有力。
-            </div>
-            <div class="project-tech">
-              <span class="tech-chip">Go</span>
-              <span class="tech-chip">Docker</span>
-            </div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-
-      </div>
+    <div class="info-card">
+      <span class="info-emoji">🎂</span>
+      <div class="info-label">出生年月</div>
+      <div class="info-value">2003 年 9 月</div>
     </div>
-  </section>
-
-  <!-- ===== Experience ===== -->
-  <section class="section" id="experience">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-icon">💼</div>
-        <div>
-          <div class="section-title">Experience</div>
-          <div class="section-subtitle">工作经历</div>
-        </div>
-      </div>
-
-      <!-- ✏️ 修改工作经历 -->
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-left">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-header">
-              <div class="timeline-title">Job Title One</div>
-              <div class="timeline-period">2024 — Present</div>
-            </div>
-            <div class="timeline-company">Company Name · Full-time</div>
-            <div class="timeline-desc">
-              描述你在这个职位的主要职责和成就。可以用数字量化成果，比如"提升页面性能 40%"、"负责 X 个核心模块"等。
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-left">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-header">
-              <div class="timeline-title">Job Title Two</div>
-              <div class="timeline-period">2022 — 2024</div>
-            </div>
-            <div class="timeline-company">Company Name · Full-time</div>
-            <div class="timeline-desc">
-              描述你在这个职位的主要职责和成就。
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-left">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-header">
-              <div class="timeline-title">Job Title Three</div>
-              <div class="timeline-period">2020 — 2022</div>
-            </div>
-            <div class="timeline-company">Company Name · Internship</div>
-            <div class="timeline-desc">
-              描述你在这个职位的主要职责和成就。
-            </div>
-          </div>
-        </div>
-
-      </div>
+    <div class="info-card">
+      <span class="info-emoji">📍</span>
+      <div class="info-label">家乡</div>
+      <div class="info-value">浙江宁波</div>
     </div>
-  </section>
-
-  <!-- ===== Contact / Links ===== -->
-  <section class="section" id="contact">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-icon">🔗</div>
-        <div>
-          <div class="section-title">Connect</div>
-          <div class="section-subtitle">找到我 & 联系方式</div>
-        </div>
-      </div>
-
-      <!-- ✏️ 修改联系方式和链接 -->
-      <div class="links-grid">
-        <a href="mailto:your@email.com" class="link-card">
-          <span class="link-icon">✉️</span>
-          <div class="link-info">
-            <div class="link-label">Email</div>
-            <div class="link-value">your@email.com</div>
-          </div>
-        </a>
-        <a href="https://github.com/yourhandle" target="_blank" class="link-card">
-          <span class="link-icon">🐙</span>
-          <div class="link-info">
-            <div class="link-label">GitHub</div>
-            <div class="link-value">@yourhandle</div>
-          </div>
-        </a>
-        <a href="https://twitter.com/yourhandle" target="_blank" class="link-card">
-          <span class="link-icon">𝕏</span>
-          <div class="link-info">
-            <div class="link-label">X / Twitter</div>
-            <div class="link-value">@yourhandle</div>
-          </div>
-        </a>
-        <a href="https://linkedin.com/in/yourhandle" target="_blank" class="link-card">
-          <span class="link-icon">💼</span>
-          <div class="link-info">
-            <div class="link-label">LinkedIn</div>
-            <div class="link-value">yourhandle</div>
-          </div>
-        </a>
-        <a href="https://your-blog.com" target="_blank" class="link-card">
-          <span class="link-icon">📝</span>
-          <div class="link-info">
-            <div class="link-label">Blog</div>
-            <div class="link-value">your-blog.com</div>
-          </div>
-        </a>
-        <a href="https://your-portfolio.com" target="_blank" class="link-card">
-          <span class="link-icon">🌐</span>
-          <div class="link-info">
-            <div class="link-label">Portfolio</div>
-            <div class="link-value">your-site.com</div>
-          </div>
-        </a>
-      </div>
-
+  </div>
+  <div class="info-grid two-col">
+    <div class="info-card">
+      <span class="info-emoji">♎</span>
+      <div class="info-label">星座</div>
+      <div class="info-value">天秤座</div>
     </div>
-  </section>
+    <div class="info-card">
+      <span class="info-emoji">🧠</span>
+      <div class="info-label">MBTI</div>
+      <div class="info-value">ESFJ</div>
+    </div>
+  </div>
 
-  <!-- ===== Footer ===== -->
-  <footer>
-    <div class="container">
-      <p class="footer-text">
-        Built with ❤️ for <a href="https://cowork.xiaohongshu.com/s/delta-invite-v2/" target="_blank">Delta Builder</a> · 2026
+  <!-- About -->
+  <section class="section">
+    <div class="section-label">关于我</div>
+    <div class="about-card">
+      <p class="about-text">
+        嗨，我是 <strong>洛璃</strong>，来自浙江宁波，一个天生<span class="highlight">热爱生活</span>的人。
+        <br/><br/>
+        我相信生活里从来不缺少美，只缺少发现它的眼睛。一杯清晨的咖啡、路边开得正好的花、朋友之间随口聊起的话题——都能让我快乐很久。
+        <br/><br/>
+        作为 <strong>ESFJ</strong>，我很享受和人在一起的感觉，喜欢照顾身边的人，也喜欢被温柔对待。天秤座的我偶尔纠结，但最终总会选择<span class="highlight">让生活更美一点</span>的那条路。
+        <br/><br/>
+        现在正在探索更多可能性，期待遇见有趣的人、做有意义的事。
       </p>
     </div>
-  </footer>
+  </section>
 
+  <!-- Vibes -->
+  <section class="section">
+    <div class="section-label">我的日常</div>
+    <div class="vibe-list">
+      <span class="vibe-tag">☕ 咖啡续命</span>
+      <span class="vibe-tag">🎵 随时随地听歌</span>
+      <span class="vibe-tag">🌅 追日落</span>
+      <span class="vibe-tag">🍜 探索好吃的</span>
+      <span class="vibe-tag">📸 记录生活瞬间</span>
+      <span class="vibe-tag">🚶 漫无目的散步</span>
+      <span class="vibe-tag">🌿 喜欢植物</span>
+      <span class="vibe-tag">🎲 偶尔打游戏</span>
+      <span class="vibe-tag">📚 读点有意思的书</span>
+      <span class="vibe-tag">🐱 喜欢猫</span>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- 小游戏：今日人生签 -->
+  <section class="section">
+    <div class="section-label">小游戏</div>
+    <div class="game-card">
+      <div class="game-title">✨ 今日人生签</div>
+      <div class="game-desc">点击扭蛋机，抽一条属于今天的签语</div>
+
+      <div class="gashapon">
+        <div class="gashapon-body" id="gashaponBody">🎱</div>
+        <div class="gashapon-neck"></div>
+        <div class="gashapon-base"></div>
+      </div>
+
+      <br/>
+      <button class="btn-pull" id="pullBtn" onclick="pullFortune()">
+        🎰 抽签
+      </button>
+
+      <div class="fortune-display">
+        <div class="fortune-box" id="fortuneBox">
+          <div class="fortune-grade" id="fortuneGrade"></div>
+          <div class="fortune-text" id="fortuneText"></div>
+          <div class="fortune-count" id="fortuneCount"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="page">
+    <p class="footer-text">
+      Made with ❤️ · <a href="https://cowork.xiaohongshu.com/s/delta-invite-v2/" target="_blank">Delta Builder 2026</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  /* ===== 星空生成 ===== */
+  (function() {
+    const container = document.getElementById('stars');
+    const count = 80;
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2 + 0.5;
+      star.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        top: ${Math.random() * 100}%;
+        left: ${Math.random() * 100}%;
+        --dur: ${2 + Math.random() * 4}s;
+        --delay: ${Math.random() * 4}s;
+        --min-op: ${0.05 + Math.random() * 0.1};
+        --max-op: ${0.4 + Math.random() * 0.5};
+      `;
+      container.appendChild(star);
+    }
+  })();
+
+  /* ===== 今日人生签 ===== */
+  const fortunes = [
+    { grade: 'SSR', emoji: '🌟', text: '今天是被整个宇宙偏爱的一天，勇敢去做那件一直想做的事吧。' },
+    { grade: 'SSR', emoji: '✨', text: '你的善意已悄悄种下了什么，今天会有意外的惊喜回到你身边。' },
+    { grade: 'SSR', emoji: '🌈', text: '今天一切顺遂。放心吃好吃的，睡个好觉，你配得上所有美好。' },
+    { grade: 'SR', emoji: '🌙', text: '慢一点没关系，今天适合把节奏放慢，好好感受当下的温度。' },
+    { grade: 'SR', emoji: '🌸', text: '去和一个许久没联系的人说声"最近好吗"，对方一定很开心。' },
+    { grade: 'SR', emoji: '🎵', text: '找一首喜欢的歌单曲循环，今天就让自己活在这首歌里。' },
+    { grade: 'SR', emoji: '☕', text: '今天的咖啡/奶茶加一杯，你值得小小的犒劳。' },
+    { grade: 'SR', emoji: '🌿', text: '今天适合出门走走，哪怕只是绕个小区一圈，也会有新发现。' },
+    { grade: 'R',  emoji: '🎲', text: '普通的一天也是值得的一天。做好手头的事，今晚早点睡。' },
+    { grade: 'R',  emoji: '🐱', text: '今天会遇到一只猫。遇到了要摸一下，没遇到就看个猫图替代。' },
+    { grade: 'R',  emoji: '📦', text: '整理一下房间吧，清爽的空间会带来意想不到的好心情。' },
+    { grade: 'R',  emoji: '🍜', text: '今天吃一顿认真的饭，不要对付，好好享受每一口。' },
+    { grade: 'N',  emoji: '😴', text: '今天运势普通，但普通也是一种稳定。躺平，没事的。' },
+    { grade: 'N',  emoji: '🌧', text: '今天可能会有点烦心事，记住：明天又是新的一天。' },
+    { grade: 'N',  emoji: '🔋', text: '今天能量值偏低，允许自己发呆一下，充充电再出发。' },
+  ];
+
+  const gradeLabel = { SSR: '★ SSR 大吉', SR: '★ SR 中吉', R: '☆ R 小吉', N: '· N 普通签' };
+  let pullCount = 0;
+  let lastIndex = -1;
+
+  function pullFortune() {
+    const body = document.getElementById('gashaponBody');
+    const box  = document.getElementById('fortuneBox');
+    const btn  = document.getElementById('pullBtn');
+
+    // 动画
+    body.classList.remove('spinning');
+    void body.offsetWidth;
+    body.classList.add('spinning');
+    box.classList.remove('show');
+    btn.disabled = true;
+
+    // 随机（避免连续相同）
+    let idx;
+    do { idx = Math.floor(Math.random() * fortunes.length); } while (idx === lastIndex);
+    lastIndex = idx;
+    const f = fortunes[idx];
+    pullCount++;
+
+    setTimeout(() => {
+      const emojis = ['🎱','🎭','🌀','💫','🎪','🌙','✨','🎯'];
+      body.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+      document.getElementById('fortuneGrade').textContent = gradeLabel[f.grade];
+      document.getElementById('fortuneGrade').className = 'fortune-grade ' + f.grade;
+      document.getElementById('fortuneText').textContent = f.emoji + ' ' + f.text;
+      document.getElementById('fortuneCount').textContent = `第 ${pullCount} 次抽签`;
+
+      box.classList.add('show');
+      btn.disabled = false;
+    }, 520);
+  }
+</script>
 </body>
 </html>
